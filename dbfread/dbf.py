@@ -83,7 +83,8 @@ class DBF(object):
                  load=False,
                  raw=False,
                  ignore_missing_memofile=False,
-                 char_decode_errors='strict'):
+                 char_decode_errors='strict',
+                 stop_at_memofile_separator=True):
 
         self.encoding = encoding
         self.ignorecase = ignorecase
@@ -92,6 +93,7 @@ class DBF(object):
         self.raw = raw
         self.ignore_missing_memofile = ignore_missing_memofile
         self.char_decode_errors = char_decode_errors
+        self.stop_at_memofile_separator = stop_at_memofile_separator
 
         if recfactory is None:
             self.recfactory = lambda items: items
@@ -306,6 +308,10 @@ class DBF(object):
             while True:
                 sep = read(1)
 
+                stop_separators = [b'']
+                if self.stop_at_memofile_separator:
+                    stop_separators.append(b'\x1a')
+
                 if sep == record_type:
                     if self.raw:
                         items = [(field.name, read(field.length)) \
@@ -317,7 +323,7 @@ class DBF(object):
 
                     yield self.recfactory(items)
 
-                elif sep in (b'\x1a', b''):
+                elif sep in stop_separators:
                     # End of records.
                     break
                 else:

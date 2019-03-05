@@ -21,7 +21,7 @@ elif sys.argv[-1] == "docs":
     sys.exit()
 
 setup(
-    name='dbfread',
+    name='td_dbfread',
     version=dbfread.__version__,
     description='Read DBF Files with Python',
     long_description=open('README.rst', 'rt').read(),
@@ -35,7 +35,7 @@ setup(
     zip_safe=True,
     install_requires=[],
     license='MIT',
-    classifiers=(
+    classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'Natural Language :: English',
@@ -43,5 +43,5 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.2',
-    ),
+    ],
 )
